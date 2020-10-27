@@ -6,11 +6,11 @@
 	$owner 	= 	$_SESSION['SESS_MEMBER_ID'];
 	$id 	= 	(int)$_GET['view'];
 
-	$GetDataComponent = mysql_query("SELECT * FROM data WHERE id = ".$id." AND owner = ".$owner."");
-	$executesql = mysql_fetch_assoc($GetDataComponent);
+	$GetDataComponent = mysqli_Query($con, "SELECT * FROM data WHERE id = ".$id." AND owner = ".$owner."");
+	$executesql = mysqli_fetch_assoc($GetDataComponent);
 
-	$GetPersonal = mysql_query("SELECT currency, measurement FROM members WHERE member_id = ".$owner."");
-	$personal = mysql_fetch_assoc($GetPersonal);
+	$GetPersonal = mysqli_Query($con, "SELECT currency, measurement FROM members WHERE member_id = ".$owner."");
+	$personal = mysqli_fetch_assoc($GetPersonal);
 
 	if ($executesql['owner'] !== $owner) {
 		header("Location: error.php?id=1");
@@ -23,13 +23,13 @@
 		$head_cat_id = substr($executesql['category'], -4, 2);
 	}
 
-	$GetHeadCatName = mysql_query("SELECT * FROM category_head WHERE id = ".$head_cat_id."");
-	$executesql_head_catname = mysql_fetch_assoc($GetHeadCatName);
+	$GetHeadCatName = mysqli_Query($con, "SELECT * FROM category_head WHERE id = ".$head_cat_id."");
+	$executesql_head_catname = mysqli_fetch_assoc($GetHeadCatName);
 
 	$sub_cat_id = $executesql['category'];
 
-	$GetSubCatName = mysql_query("SELECT * FROM category_sub WHERE id = ".$sub_cat_id."");
-	$executesql_sub_catname = mysql_fetch_assoc($GetSubCatName);
+	$GetSubCatName = mysqli_Query($con, "SELECT * FROM category_sub WHERE id = ".$sub_cat_id."");
+	$executesql_sub_catname = mysqli_fetch_assoc($GetSubCatName);
 
 	if(isset($_POST['edit'])) {
 		header("Location: edit_component.php?edit=$id");
@@ -37,12 +37,12 @@
 
 	if(isset($_POST['delete'])) {
 		$sql = "UPDATE data SET archived = '1' WHERE id = ".$id." ";
-                $sql_exec = mysql_query($sql);
+                $sql_exec = mysqli_Query($con, $sql);
 		$sql2 = "UPDATE data SET datearchived = now() WHERE id = ".$id." ";
-                $sql2_exec = mysql_query($sql);
+                $sql2_exec = mysqli_Query($con, $sql);
 		header("location: archived.php");
 		$sql = "UPDATE data SET quantity = '0' WHERE id = ".$id." ";
-                $sql_exec = mysql_query($sql);
+                $sql_exec = mysqli_Query($con, $sql);
 
 	}
 
@@ -55,7 +55,7 @@
 		$quantity_after		= 	$quantity_before + 1;
 
 		$sql = "UPDATE data SET quantity = '".$quantity_after."' WHERE id = ".$id." ";
-		$sql_exec = mysql_query($sql);
+		$sql_exec = mysqli_Query($con, $sql);
 		header("location: " . $_SERVER['REQUEST_URI']);
 	}
 
@@ -64,7 +64,7 @@
 		$quantity_after 	= 	$quantity_before - 1;
 
 		$sql = "UPDATE data SET quantity = '".$quantity_after."' WHERE id = ".$id." ";
-		$sql_exec = mysql_query($sql);
+		$sql_exec = mysqli_Query($con, $sql);
 		header("location: " . $_SERVER['REQUEST_URI']);
 	}
 
@@ -73,7 +73,7 @@
 		$quantity_after		= 	$quantity_before + 1;
 
 		$sql = "UPDATE data SET order_quantity = '".$quantity_after."' WHERE id = ".$id." ";
-		$sql_exec = mysql_query($sql);
+		$sql_exec = mysqli_Query($con, $sql);
 
 		$ordername        =       $executesql['name'];
 
@@ -87,7 +87,7 @@
 		$quantity_after 	= 	$quantity_before - 1;
 
 		$sql = "UPDATE data SET order_quantity = '".$quantity_after."' WHERE id = ".$id." ";
-		$sql_exec = mysql_query($sql);
+		$sql_exec = mysqli_Query($con, $sql);
 		header("location: " . $_SERVER['REQUEST_URI']);
 	}
 
@@ -96,7 +96,7 @@
                 $quantity_after         =       $quantity_before + 1;
 
                 $sql = "UPDATE data SET onorder = '".$quantity_after."' WHERE id = ".$id." ";
-                $sql_exec = mysql_query($sql);
+                $sql_exec = mysqli_Query($con, $sql);
                 header("location: " . $_SERVER['REQUEST_URI']);
         }
 
@@ -105,7 +105,7 @@
                 $quantity_after         =       $quantity_before - 1;
 
                 $sql = "UPDATE data SET onorder = '".$quantity_after."' WHERE id = ".$id." ";
-                $sql_exec = mysql_query($sql);
+                $sql_exec = mysqli_Query($con, $sql);
                 header("location: " . $_SERVER['REQUEST_URI']);
         }
 

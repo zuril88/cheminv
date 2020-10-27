@@ -4,18 +4,18 @@
     include('include/mysql_connect.php');
 
     $sql = "SELECT * FROM data";
-    $rec = mysql_query($sql) or die (mysql_error());
+    $rec = mysqli_Query($con, $sql) or die (mysqli_error($con));
 
-    $num_fields = mysql_num_fields($rec);
+    $num_fields = mysqli_num_fields($rec);
 
     for($i = 0; $i < $num_fields; $i++ )
     {
-        $header .= '<Cell ss:StyleID="2"><Data ss:Type="String">'.mysql_field_name($rec, $i).'</Data></Cell>';
+        $header .= '<Cell ss:StyleID="2"><Data ss:Type="String">'.mysqli_field_name($rec, $i).'</Data></Cell>';
     }
 
     $header = '<Row>'.$header.'</Row>';
 
-    while($row = mysql_fetch_row($rec))
+    while($row = mysqli_fetch_row($rec))
     {
         $line = '';
         foreach($row as $value)
@@ -77,6 +77,12 @@
     header("Pragma: no-cache");
     header("Expires: 0");
     print "$xls_header.$header.$data.$xls_footer";
+}
+
+function mysqli_field_name($result, $field_offset)
+{
+    $properties = mysqli_fetch_field_direct($result, $field_offset);
+    return is_object($properties) ? $properties->name : null;
 }
 
 export_excel_csv();

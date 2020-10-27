@@ -10,12 +10,12 @@ class ProjectShowComponents {
 		
 		if(isset($_GET['proj_id'])) {
 		
-			$proj_id = mysql_real_escape_string((int)$_GET['proj_id']);
+			$proj_id = mysqli_real_escape_string($con, (int)$_GET['proj_id']);
 			
 			$GetComponentIDs = "SELECT component_id FROM projects_data WHERE owner = ".$owner." AND project_id = ".$proj_id." ORDER by name ASC";
-			$sql_exec_GetComponentIDs = mysql_Query($GetComponentIDs);
+			$sql_exec_GetComponentIDs = mysqli_Query($con, $GetComponentIDs);
 			
-			while($showDetails_ComponentIDs = mysql_fetch_array($sql_exec_GetComponentIDs)) {
+			while($showDetails_ComponentIDs = mysqli_fetch_array($sql_exec_GetComponentIDs)) {
 			
 				$ComponentID = $showDetails_ComponentIDs['component_id'];
 			}
@@ -26,8 +26,8 @@ class ProjectShowComponents {
 				$by = $_GET["by"];
 				$order = $_GET["order"];
 				
-				$bysql = mysql_real_escape_string($by);
-				$ordersql = mysql_real_escape_string($order);
+				$bysql = mysqli_real_escape_string($con, $by);
+				$ordersql = mysqli_real_escape_string($con, $order);
 				
 				if($by == 'price' or $by == 'pins' or $by == 'quantity') {
 				
@@ -43,8 +43,8 @@ class ProjectShowComponents {
 			}
 			
 			
-			$sql_exec = mysql_Query($GetDataComponentsAll);
-			while($showDetails = mysql_fetch_array($sql_exec)) {
+			$sql_exec = mysqli_Query($con, $GetDataComponentsAll);
+			while($showDetails = mysqli_fetch_array($sql_exec)) {
 				echo "<tr>";
 
 				echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -69,9 +69,9 @@ class ProjectShowComponents {
 					$subcatid = $showDetails['category'];
 					
 					$CategoryName = "SELECT * FROM category_head WHERE id = ".$head_cat_id."";
-					$sql_exec_catname = mysql_Query($CategoryName);
+					$sql_exec_catname = mysqli_Query($con, $CategoryName);
 				
-					while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+					while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
 						$catname = $showDetailsCat['name'];
 					}
 					

@@ -9,8 +9,8 @@ class ShowComponents {
 
 		if(isset($_GET['by'])) {
 
-			$by			=	strip_tags(mysql_real_escape_string($_GET["by"]));
-			$order_q	=	strip_tags(mysql_real_escape_string($_GET["order"]));
+			$by			=	strip_tags(mysqli_real_escape_string($con, $_GET["by"]));
+			$order_q	=	strip_tags(mysqli_real_escape_string($con, $_GET["order"]));
 
 			if($order_q == 'desc' or $order_q == 'asc'){
 				$order = $order_q;
@@ -34,8 +34,8 @@ class ShowComponents {
 		}
 
 
-		$sql_exec = mysql_Query($GetDataComponentsAll);
-		while($showDetails = mysql_fetch_array($sql_exec)) {
+		$sql_exec = mysqli_Query($con, $GetDataComponentsAll);
+		while($showDetails = mysqli_fetch_array($sql_exec)) {
 			echo "<tr>";
 
 			echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -60,9 +60,9 @@ class ShowComponents {
 				$subcatid = $showDetails['category'];
 
 				$CategoryName = "SELECT * FROM category_head WHERE id = ".$head_cat_id."";
-				$sql_exec_catname = mysql_Query($CategoryName);
+				$sql_exec_catname = mysqli_Query($con, $CategoryName);
 
-				while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+				while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
 					$catname = $showDetailsCat['name'];
 				}
 
@@ -151,12 +151,12 @@ class ShowComponents {
 
 
 			$CategoryName = "SELECT * FROM category_sub WHERE id = ".$cat."";
-			$sql_exec_catname = mysql_Query($CategoryName);
+			$sql_exec_catname = mysqli_Query($con, $CategoryName);
 
 			if(isset($_GET['by'])) {
 
-				$by			=	strip_tags(mysql_real_escape_string($_GET["by"]));
-				$order_q	=	strip_tags(mysql_real_escape_string($_GET["order"]));
+				$by			=	strip_tags(mysqli_real_escape_string($con, $_GET["by"]));
+				$order_q	=	strip_tags(mysqli_real_escape_string($con, $_GET["order"]));
 
 				if($order_q == 'desc' or $order_q == 'asc') {
 					$order = $order_q;
@@ -179,9 +179,9 @@ class ShowComponents {
 				$ComponentsCategory = "SELECT id, name, category, cas_number, amount, volume, quantity, datasheet, comment FROM data WHERE category BETWEEN ".$subcatfrom." AND ".$subcatto." AND owner = ".$owner." AND archived = '0' ORDER by name ASC";
 			}
 
-			$sql_exec_component = mysql_Query($ComponentsCategory);
+			$sql_exec_component = mysqli_Query($con, $ComponentsCategory);
 
-			while ($showDetails = mysql_fetch_array($sql_exec_component)) {
+			while ($showDetails = mysqli_fetch_array($sql_exec_component)) {
 				echo "<tr>";
 
 				echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -198,9 +198,9 @@ class ShowComponents {
 				$subcatid = $showDetails['category'];
 
 				$CategoryName = "SELECT * FROM category_sub WHERE id = ".$subcatid."";
-				$sql_exec_catname = mysql_Query($CategoryName);
+				$sql_exec_catname = mysqli_Query($con, $CategoryName);
 
-				while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+				while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
 					$catname = $showDetailsCat['name'];
 				}
 
@@ -280,12 +280,12 @@ class ShowComponents {
 			$subcat = (int)$_GET['subcat'];
 
 			$CategoryName = "SELECT * FROM category_sub WHERE id = ".$subcat."";
-			$sql_exec_catname = mysql_Query($CategoryName);
+			$sql_exec_catname = mysqli_Query($con, $CategoryName);
 
 			if(isset($_GET['by'])) {
 
-				$by			=	strip_tags(mysql_real_escape_string($_GET["by"]));
-				$order_q	=	strip_tags(mysql_real_escape_string($_GET["order"]));
+				$by			=	strip_tags(mysqli_real_escape_string($con, $_GET["by"]));
+				$order_q	=	strip_tags(mysqli_real_escape_string($con, $_GET["order"]));
 
 				if($order_q == 'desc' or $order_q == 'asc') {
 					$order = $order_q;
@@ -308,9 +308,9 @@ class ShowComponents {
 				$ComponentsCategory = "SELECT id, name, category, cas_number, amount, volume, quantity, datasheet, comment FROM data WHERE category = ".$subcat." AND owner = ".$owner." AND archived = '0' ORDER by name ASC";
 			}
 
-			$sql_exec_component = mysql_Query($ComponentsCategory);
+			$sql_exec_component = mysqli_Query($con, $ComponentsCategory);
 
-			while ($showDetails = mysql_fetch_array($sql_exec_component)) {
+			while ($showDetails = mysqli_fetch_array($sql_exec_component)) {
 				echo "<tr>";
 
 				echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -324,7 +324,7 @@ class ShowComponents {
 				echo "</a></td>";
 
 				echo "<td>";
-					while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+					while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
 						$catname = $showDetailsCat['name'];
 					}
 					echo $catname;
@@ -405,8 +405,8 @@ class ShowComponents {
                			$owner = $_SESSION['SESS_MEMBER_ID'];
 
               			if (isset($_GET['by'])){
-                                        $by                     =       strip_tags(mysql_real_escape_string($_GET["by"]));
-                                        $order_q        =       strip_tags(mysql_real_escape_string($_GET["order"]));
+                                        $by                     =       strip_tags(mysqli_real_escape_string($con, $_GET["by"]));
+                                        $order_q        =       strip_tags(mysqli_real_escape_string($con, $_GET["order"]));
 
                                         if($order_q == 'desc' or $order_q == 'asc'){
                                                 $order = $order_q;
@@ -428,14 +428,14 @@ class ShowComponents {
                                         $SearchQuery = "SELECT * FROM data WHERE (archived LIKE'1' ) AND owner = $owner ORDER by name ASC";
                                 }
 
-                                $sql_exec = mysql_query($SearchQuery);
-                                $anymatches = mysql_num_rows($sql_exec);
+                                $sql_exec = mysqli_Query($con, $SearchQuery);
+                                $anymatches = mysqli_num_rows($sql_exec);
                                 if ($anymatches == 0) {
                                         echo '<div class="message red">';
                                                 echo "No items have been archived.";
                                         echo '</div>';
                                 }
-				while($showDetails = mysql_fetch_array($sql_exec)) {
+				while($showDetails = mysqli_fetch_array($sql_exec)) {
                                         echo "<tr>";
 
                                         echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -459,9 +459,9 @@ class ShowComponents {
                                                 $subcatid = $showDetails['category'];
 
                                                 $CategoryName = "SELECT * FROM category_head WHERE id = ".$head_cat_id."";
-                                                $sql_exec_catname = mysql_Query($CategoryName);
+                                                $sql_exec_catname = mysqli_Query($con, $CategoryName);
 
-                                                while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+                                                while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
                                                         $catname = $showDetailsCat['name'];
                                                 }
 
@@ -552,7 +552,7 @@ class ShowComponents {
 
 			$owner = $_SESSION['SESS_MEMBER_ID'];
 
-			$query = mysql_real_escape_string($_GET['q']);
+			$query = mysqli_real_escape_string($con, $_GET['q']);
 
 			$query1 = strtoupper($query);
 			$query2 = strip_tags($query1);
@@ -568,8 +568,8 @@ class ShowComponents {
 
 
 				if (isset($_GET['by'])){
-					$by			=	strip_tags(mysql_real_escape_string($_GET["by"]));
-					$order_q	=	strip_tags(mysql_real_escape_string($_GET["order"]));
+					$by			=	strip_tags(mysqli_real_escape_string($con, $_GET["by"]));
+					$order_q	=	strip_tags(mysqli_real_escape_string($con, $_GET["order"]));
 
 					if($order_q == 'desc' or $order_q == 'asc'){
 						$order = $order_q;
@@ -592,15 +592,15 @@ class ShowComponents {
 					$SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by name ASC";
 				}
 
-				$sql_exec = mysql_query($SearchQuery);
-				$anymatches = mysql_num_rows($sql_exec);
+				$sql_exec = mysqli_Query($con, $SearchQuery);
+				$anymatches = mysqli_num_rows($sql_exec);
 				if ($anymatches == 0) {
 					echo '<div class="message red">';
 						echo "Sorry, but we can not find an entry to match your query.";
 					echo '</div>';
 				}
 
-				while($showDetails = mysql_fetch_array($sql_exec)) {
+				while($showDetails = mysqli_fetch_array($sql_exec)) {
 					echo "<tr>";
 
 					echo '<td class="edit"><a href="edit_component.php?edit=';
@@ -633,9 +633,9 @@ class ShowComponents {
 						$subcatid = $showDetails['category'];
 
 						$CategoryName = "SELECT * FROM category_head WHERE id = ".$head_cat_id."";
-						$sql_exec_catname = mysql_Query($CategoryName);
+						$sql_exec_catname = mysqli_Query($con, $CategoryName);
 
-						while($showDetailsCat = mysql_fetch_array($sql_exec_catname)) {
+						while($showDetailsCat = mysqli_fetch_array($sql_exec_catname)) {
 							$catname = $showDetailsCat['name'];
 						}
 
@@ -740,58 +740,58 @@ class ShowComponents {
 				$name = '';
 			}
 			else{
-				$name			=	strip_tags(mysql_real_escape_string($_POST['name']));
+				$name			=	strip_tags(mysqli_real_escape_string($con, $_POST['name']));
 			}
 
 			if (empty($_POST['quantity'])) {
 				$quantity = 0;
 			}
 			else{
-				$quantity			=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['quantity'])));
+				$quantity			=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['quantity'])));
 			}
 
 			if (empty($_POST['category'])) {
 				$category = '';
 			}
 			else{
-				$category		=	strip_tags(mysql_real_escape_string($_POST['category']));
+				$category		=	strip_tags(mysqli_real_escape_string($con, $_POST['category']));
 			}
 
 			if (empty($_POST['project'])) {
 				$project = '';
 			}
 			else{
-				$project		=	strip_tags(mysql_real_escape_string($_POST['project']));
+				$project		=	strip_tags(mysqli_real_escape_string($con, $_POST['project']));
 			}
 
-			$comment			=	strip_tags(mysql_real_escape_string($_POST['comment']));
-			$order_quantity		=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['order_quantity'])));
-			$project_quantity	=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['projquant'])));
-			$price				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['price'])));
-			$item_number			=	strip_tags(mysql_real_escape_string($_POST['item_number']));
-			$manufacturer		=	strip_tags(mysql_real_escape_string($_POST['manufacturer']));
-			$cas_number			=	strip_tags(mysql_real_escape_string($_POST['cas_number']));
-			$amount				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['amount'])));
-			$scrap				=	strip_tags(mysql_real_escape_string($_POST['scrap']));
-			$public				=	strip_tags(mysql_real_escape_string($_POST['public']));
-			$width				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['width'])));
-			$height				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['height'])));
-			$depth				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['depth'])));
-			$weight				=	str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['weight'])));
-			$datasheet			=	strip_tags(mysql_real_escape_string($_POST['datasheet']));
-			$barcode2				=	strip_tags(mysql_real_escape_string($_POST['barcode2']));
-			$barcode3				=	strip_tags(mysql_real_escape_string($_POST['barcode3']));
-			$barcode4			=	strip_tags(mysql_real_escape_string($_POST['barcode4']));
-			$barcode5			=	strip_tags(mysql_real_escape_string($_POST['barcode5']));
-			$barcode6                       =       strip_tags(mysql_real_escape_string($_POST['barcode6']));
-                        $barcode7                       =       strip_tags(mysql_real_escape_string($_POST['barcode7']));
-			$volume                         =       strip_tags(mysql_real_escape_string($_POST['volume']));
-			$barcode                        =       strip_tags(mysql_real_escape_string($_POST['barcode']));
-			$datea                           =       strip_tags(mysql_real_escape_string($_POST['datea']));
-			$dateo                           =       strip_tags(mysql_real_escape_string($_POST['dateo']));
-			$datex                           =       strip_tags(mysql_real_escape_string($_POST['datex']));
-			$mw                           	=       strip_tags(mysql_real_escape_string($_POST['mw']));
-			$onorder         		=       str_replace(',', '.', strip_tags(mysql_real_escape_string($_POST['onorder'])));
+			$comment			=	strip_tags(mysqli_real_escape_string($con, $_POST['comment']));
+			$order_quantity		=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['order_quantity'])));
+			$project_quantity	=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['projquant'])));
+			$price				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['price'])));
+			$item_number			=	strip_tags(mysqli_real_escape_string($con, $_POST['item_number']));
+			$manufacturer		=	strip_tags(mysqli_real_escape_string($con, $_POST['manufacturer']));
+			$cas_number			=	strip_tags(mysqli_real_escape_string($con, $_POST['cas_number']));
+			$amount				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['amount'])));
+			$scrap				=	strip_tags(mysqli_real_escape_string($con, $_POST['scrap']));
+			$public				=	strip_tags(mysqli_real_escape_string($con, $_POST['public']));
+			$width				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['width'])));
+			$height				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['height'])));
+			$depth				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['depth'])));
+			$weight				=	str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['weight'])));
+			$datasheet			=	strip_tags(mysqli_real_escape_string($con, $_POST['datasheet']));
+			$barcode2				=	strip_tags(mysqli_real_escape_string($con, $_POST['barcode2']));
+			$barcode3				=	strip_tags(mysqli_real_escape_string($con, $_POST['barcode3']));
+			$barcode4			=	strip_tags(mysqli_real_escape_string($con, $_POST['barcode4']));
+			$barcode5			=	strip_tags(mysqli_real_escape_string($con, $_POST['barcode5']));
+			$barcode6                       =       strip_tags(mysqli_real_escape_string($con, $_POST['barcode6']));
+                        $barcode7                       =       strip_tags(mysqli_real_escape_string($con, $_POST['barcode7']));
+			$volume                         =       strip_tags(mysqli_real_escape_string($con, $_POST['volume']));
+			$barcode                        =       strip_tags(mysqli_real_escape_string($con, $_POST['barcode']));
+			$datea                           =       strip_tags(mysqli_real_escape_string($con, $_POST['datea']));
+			$dateo                           =       strip_tags(mysqli_real_escape_string($con, $_POST['dateo']));
+			$datex                           =       strip_tags(mysqli_real_escape_string($con, $_POST['datex']));
+			$mw                           	=       strip_tags(mysqli_real_escape_string($con, $_POST['mw']));
+			$onorder         		=       str_replace(',', '.', strip_tags(mysqli_real_escape_string($con, $_POST['onorder'])));
 
 
 			if ($name == '') {
@@ -870,15 +870,15 @@ class ShowComponents {
 					VALUES
 					('$owner', '$name', '$manufacturer', '$cas_number', '$amount', '$quantity', '$item_number', '$scrap', '$width', '$height', '$depth', '$weight', '$datasheet', '$comment', '$category', '$barcode2', '$barcode3', '$barcode4', '$barcode5', '$price', '$public', '$order_quantity','$volume','$barcode','$datea','$dateo','$datex','$onorder','$mw','$barcode6','$barcode7')";
 
-					$sql_exec = mysql_query($sql) or die(mysql_error());
-					$component_id = mysql_insert_id();
+					$sql_exec = mysqli_Query($con, $sql) or die(mysqli_error($con));
+					$component_id = mysqli_insert_id($con);
 
 					if (!empty($project) && !empty($project_quantity)) {
 						$proj_add="INSERT into projects_data (projects_data_owner_id, projects_data_project_id, projects_data_component_id, projects_data_quantity)
 							VALUES
 							('$owner', '$project', '$component_id', '$project_quantity')";
 
-						$sql_exec = mysql_query($proj_add);
+						$sql_exec = mysqli_Query($con, $proj_add);
 					}
 
 					/*------------------------------------------------------------------------------------------
@@ -898,7 +898,7 @@ class ShowComponents {
 							VALUES
 							('$owner', '$project', '$component_id', '$quantity')";
 
-							$sql_exec = mysql_query($proj_add);
+							$sql_exec = mysqli_Query($con, $proj_add);
 
 							echo 'Inserted';
 						}
@@ -909,8 +909,8 @@ class ShowComponents {
 					echo 'Component added! - <a href="component.php?view=';
 					echo $component_id;
 					echo '">View component (';
-						$result = mysql_query("SELECT name FROM data WHERE id = '$component_id'");
-						$name = mysql_fetch_array($result);
+						$result = mysqli_Query($con, "SELECT name FROM data WHERE id = '$component_id'");
+						$name = mysqli_fetch_array($result);
 						echo $name['name'];
 					echo ')</a>';
 					echo '</div>';
@@ -920,14 +920,14 @@ class ShowComponents {
 					$sql = "UPDATE data SET
 					name = '$name', manufacturer = '$manufacturer', volume = '$volume', barcode = '$barcode', datea = '$datea', dateo = '$dateo', datex = '$datex', onorder = '$onorder', cas_number = '$cas_number', amount = '$amount', quantity = '$quantity', item_number = '$item_number', scrap = '$scrap', width = '$width', height = '$height', depth = '$depth', weight = '$weight', datasheet = '$datasheet', comment = '$comment', category = '$category', barcode2 = '$barcode2', barcode3 = '$barcode3',  barcode4 = '$barcode4', barcode5 = '$barcode5', price = '$price', public = '$public', mw = '$mw', barcode6 = '$barcode6', barcode7 = '$barcode7', order_quantity = '$order_quantity'	WHERE id = '$id'";
 
-					$sql_exec = mysql_query($sql);
+					$sql_exec = mysqli_Query($con, $sql);
 
 					if (!empty($project) && !empty($project_quantity)) {
 						$proj_add="INSERT into projects_data (projects_data_owner_id, projects_data_project_id, projects_data_component_id, projects_data_quantity)
 							VALUES
 							('$owner', '$project', '$id', '$project_quantity')";
 
-						$sql_exec = mysql_query($proj_add) or die(mysql_error());
+						$sql_exec = mysqli_Query($con, $proj_add) or die(mysqli_error($con));
 						echo $project;
 						echo ' Owner ';
 						echo $owner;
@@ -943,7 +943,7 @@ class ShowComponents {
 						foreach ($proj as $quantity_proj_add){
 							$projects = array_search($quantity_proj_add, $proj);
 							$sqlDeleteProject = "DELETE FROM projects_data WHERE projects_data_component_id = '$id' AND projects_data_project_id = '$projects'";
-							$sql_exec_project_delete = mysql_query($sqlDeleteProject);
+							$sql_exec_project_delete = mysqli_Query($con, $sqlDeleteProject);
 
 							if ($quantity_proj_add == 0){
 								echo 'None';
@@ -953,7 +953,7 @@ class ShowComponents {
 								VALUES
 								('$owner', '$projects', '$id', '$quantity_proj_add')";
 
-								$sql_exec = mysql_query($proj_edit);
+								$sql_exec = mysqli_Query($con, $proj_edit);
 
 								/*
 								echo 'Projid: ';

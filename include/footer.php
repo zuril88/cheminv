@@ -4,14 +4,17 @@
         <div class="stats">
             <?php include_once('include/mysql_connect.php'); ?>
 
-        	<?php $members = mysql_num_rows(mysql_query("SELECT member_id FROM members")); echo $members; ?>
-			<span class="boldText">members</span>,
+            <?php $members = mysqli_num_rows(mysqli_query($con, "SELECT member_id FROM members"));
+            echo $members; ?>
+            <span class="boldText">members</span>,
 
-			<?php $components = mysql_num_rows(mysql_query("SELECT id FROM data")); echo $components; ?>
-			<span class="boldText">chemicals </span>and
+            <?php $components = mysqli_num_rows(mysqli_query($con, "SELECT id FROM data"));
+            echo $components; ?>
+            <span class="boldText">chemicals </span>and
 
-			<?php $projects = mysql_num_rows(mysql_query("SELECT project_id FROM projects")); echo $projects; ?>
-			<span class="boldText">projects</span>.
+            <?php $projects = mysqli_num_rows(mysqli_query($con, "SELECT project_id FROM projects"));
+            echo $projects; ?>
+            <span class="boldText">projects</span>.
 
         </div>
     </div>

@@ -14,7 +14,7 @@
 	//Connect to mysql server
 	$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
 	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
+		die('Failed to connect to server: ' . mysqli_error($con));
 	}
 	
 	//Select database
@@ -31,7 +31,7 @@
 		if(get_magic_quotes_gpc()) {
 			$str = stripslashes($str);
 		}
-		return mysql_real_escape_string($str);
+		return mysqli_real_escape_string($con, $str);
 	}
 	
 	//Sanitize the POST values
@@ -95,9 +95,9 @@
 	//Check for duplicate login ID
 	if($login != '') {
 		$qry = "SELECT * FROM members WHERE login='$login'";
-		$result = mysql_query($qry);
+		$result = mysqli_Query($con, $qry);
 		if($result) {
-			if(mysql_num_rows($result) > 0) {
+			if(mysqli_num_rows($result) > 0) {
 				$errmsg_arr[] = 'Username already in use';
 				$errflag = true;
 			}
@@ -118,7 +118,7 @@
 
 	//Create INSERT query
 	$qry = "INSERT INTO members(firstname, lastname, login, mail, passwd) VALUES('$fname','$lname','$login','$mail','".md5($_POST['password'])."')";
-	$result = @mysql_query($qry);
+	$result = @mysqli_Query($con, $qry);
 	
 	//Check whether the query was successful or not
 	if($result) {

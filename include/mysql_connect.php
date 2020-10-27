@@ -1,10 +1,9 @@
 <?php
 	$db_host = "localhost";
-	$db_username = "ecdbuser";
-	$db_pass = “password”;
-	$db_name = "ecdb";
+	$db_username = "cheminvuser";
+	$db_pass = "BEXaCom4";
+	$db_name = "cheminv";
 
-	mysql_pconnect($db_host, $db_username, $db_pass) or die ("Could not connect connect to MySQL Server");
-	mysql_select_db($db_name) or die ("No database");
-	mysql_set_charset('utf8');
-?>
+	$con=mysqli_connect($db_host, $db_username, $db_pass) or die ("Could not connect connect to MySQL Server");
+	mysqli_select_db($con, $db_name) or die ("No database");
+	mysqli_set_charset($con, 'utf8');

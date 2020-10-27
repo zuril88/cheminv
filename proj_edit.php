@@ -6,15 +6,15 @@
 	$owner 	= 	$_SESSION['SESS_MEMBER_ID'];
 	$id 	= 	(int)$_GET['proj_id'];
 	
-	$GetDataProjectName = mysql_query("SELECT * FROM projects WHERE project_id = ".$id." AND project_owner = ".$owner."");
-	$executesql = mysql_fetch_assoc($GetDataProjectName);
+	$GetDataProjectName = mysqli_Query($con, "SELECT * FROM projects WHERE project_id = ".$id." AND project_owner = ".$owner."");
+	$executesql = mysqli_fetch_assoc($GetDataProjectName);
 	
 	if(isset($_POST['delete'])) {
 		$sqlDeleteProject = "DELETE FROM projects WHERE project_id = ".$id." ";
-		$sql_exec_component_delete = mysql_query($sqlDeleteProject);
+		$sql_exec_component_delete = mysqli_Query($con, $sqlDeleteProject);
 
 		$sqlDeleteProject = "DELETE FROM projects_data WHERE projects_data_project_id = ".$id." ";
-		$sql_exec_project_delete = mysql_query($sqlDeleteProject);
+		$sql_exec_project_delete = mysqli_Query($con, $sqlDeleteProject);
 
 		header("Location: .");
 	}
