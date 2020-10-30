@@ -196,7 +196,7 @@
                                                         </tr>
                                                         <tr>
                                                                 <td class="boldText">
-                                                                        Manufacturer
+                                                                        Chemical Formula
                                                                 </td>
                                                                 <td>
                                                                         <input name="manufacturer" id="manufacturer" class="medium" type="text" value="<?php echo $executesql['manufacturer'];  ?>" />

@@ -111,7 +111,7 @@
 							</tr>
 							<tr>
 								<td class="boldText">
-									Manufacturer
+									Chemical Formula
 								</td>
 								<td>
 									<input name="manufacturer" id="manufacturer" class="medium" type="text" value="<?php if(isset($_POST['submit'])) { echo $_POST['manufacturer']; } ?>" />
@@ -119,11 +119,8 @@
 								<td class="boldText">
 									CAS Number
 								</td>
-								<td>
-								(Dashes will be added automatically)
-								</td>
-								<td colspan="2">
-                                                                        <input name="cas_number" id="cas_number" class="middle" type="text" class="small" value="<?php if(isset($_POST['submit'])) { echo mb_substr($_POST['cas_number'],0,-3)."-".mb_substr($_POST['cas_number'],-3,-1)."-".mb_substr($_POST['cas_number'],-1,1); } ?>" />
+								<td colspan="1">
+                                                                        <input name="cas_number" id="cas_number" class="middle" type="text" class="small" value="<?php if(isset($_POST['submit'])) { echo $_POST['cas_number']; } ?>" />
                                                                 </td>
 							</tr>
 							<tr>
