@@ -68,11 +68,11 @@
 						<form class="globalForms" name="loginForm" method="post" action="login-exec.php">
 							<div class="textInput">
 								<label class="keyWord">Username</label>
-								<div class="input"><br /><input name="login" value="demo" class="medium" type="text" id="login"/></div>
+								<div class="input"><br /><input name="login" value="" class="medium" type="text" id="login"/></div>
 							</div>
 							<div class="textInput">
 								<label class="keyWord">Password</label>
-								<div class="input"><input name="password" class="medium" value="demo" type="password" id="password"/></div>
+								<div class="input"><input name="password" class="medium" value="" type="password" id="password"/></div>
 							</div>
 							<div class="buttons">
 								<div class="input">

@@ -1,4 +1,5 @@
 <?php
+	header("location: /");
 	session_start();
 	require_once('include/debug.php');
 ?>

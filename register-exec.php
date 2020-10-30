@@ -1,4 +1,6 @@
 <?php
+	exit();  // Disabled
+
 	//Start session
 	session_start();
 	
@@ -12,35 +14,35 @@
 	$errflag = false;
 	
 	//Connect to mysql server
-	$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
 	if(!$link) {
 		die('Failed to connect to server: ' . mysqli_error($con));
 	}
 	
 	//Select database
-	$db = mysql_select_db(DB_DATABASE);
+	$db = mysqli_select_db($link, DB_DATABASE);
 	if(!$db) {
 		die("Unable to select database");
 	}
 	
-	mysql_set_charset('utf8');
+	mysqli_set_charset($link, 'utf8');
 	
 	//Function to sanitize values received from the form. Prevents SQL injection
-	function clean($str) {
+	function clean($str, $parLink) {
 		$str = @trim($str);
 		if(get_magic_quotes_gpc()) {
 			$str = stripslashes($str);
 		}
-		return mysqli_real_escape_string($con, $str);
+		return mysqli_real_escape_string($parLink, $str);
 	}
 	
 	//Sanitize the POST values
-	$fname = clean($_POST['fname']);
-	$lname = clean($_POST['lname']);
-	$login = clean($_POST['login']);
-	$mail = clean($_POST['mail']);
-	$password = clean($_POST['password']);
-	$cpassword = clean($_POST['cpassword']);
+	$fname = clean($_POST['fname'], $link);
+	$lname = clean($_POST['lname'], $link);
+	$login = clean($_POST['login'], $link);
+	$mail = clean($_POST['mail'], $link);
+	$password = clean($_POST['password'], $link);
+	$cpassword = clean($_POST['cpassword'], $link);
 	
 	//Input Validations
 	if($fname == '') {
@@ -101,7 +103,7 @@
 				$errmsg_arr[] = 'Username already in use';
 				$errflag = true;
 			}
-			@mysql_free_result($result);
+			@mysqli_free_result($result);
 		}
 		else {
 			die("Query failed");
