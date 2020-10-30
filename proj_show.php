@@ -121,7 +121,7 @@
 										else {
 											echo 'asc';
 										}
-									?>">Manufacturer</a>
+									?>">Chemical Formula</a>
 								</th>
 								<th>
 									<a href="?proj_id=<?php echo $project_id; ?>&by=package&order=<?php 

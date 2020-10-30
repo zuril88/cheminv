@@ -542,7 +542,8 @@ class ShowComponents {
                                         }
                                         echo "</tr>";
                                 }
-        }
+		}
+		
 	public function Search() {
 
 		if(isset($_GET['q'])) {
@@ -579,17 +580,21 @@ class ShowComponents {
 					}
 
 					if($by == 'price' or $by == 'amount' or $by == 'quantity' or $by == 'volume' or $by == 'cas_number') {
-						$SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by $by +0 $order";
+						// $SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by $by +0 $order";
+						$SearchQuery = "SELECT * FROM data WHERE (name LIKE '%$find%' OR cas_number LIKE '$find%' ) AND owner = $owner ORDER by $by +0 $order";
 					}
 					elseif($by == 'name' or $by == 'category' or $by =='package' or $by =='smd' or $by =='manufacturer') {
-						$SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by $by $order";
+						// $SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by $by $order";
+						$SearchQuery = "SELECT * FROM data WHERE (name LIKE '%$find%' OR cas_number LIKE '$find%' ) AND owner = $owner ORDER by $by $order";
 					}
 					else {
-						$SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by name ASC";
+						// $SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by name ASC";
+						$SearchQuery = "SELECT * FROM data WHERE (name LIKE '%$find%' OR cas_number LIKE '$find%' ) AND owner = $owner ORDER by name ASC";
 					}
 				}
 				else{
-					$SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by name ASC";
+					// $SearchQuery = "SELECT * FROM data WHERE MATCH (name,cas_number,manufacturer,amount,item_number,comment,barcode2,barcode,barcode3,barcode4,barcode5,barcode6,barcode7) AGAINST ('*$find*' IN BOOLEAN MODE) AND owner = $owner ORDER by name ASC";
+					$SearchQuery = "SELECT * FROM data WHERE (name LIKE '%$find%' OR cas_number LIKE '$find%' ) AND owner = $owner ORDER by name ASC";
 				}
 
 				$sql_exec = mysqli_Query($con, $SearchQuery);
@@ -721,6 +726,7 @@ class ShowComponents {
 			}
 		}
 	}
+
 	public function Add() {
 
 		require_once('include/login/auth.php');

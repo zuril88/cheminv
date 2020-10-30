@@ -78,7 +78,7 @@
 								?>">Manufacturer</a>
 							</th>
 							<th>
-								<a href="?q=<?php echo $_GET['q']; ?>&by=package&order=<?php 
+								<a href="?q=<?php echo $_GET['q']; ?>&by=cas_number&order=<?php 
 								if(isset($_GET['order'])){
 									$order = $_GET['order'];
 									if ($order == 'asc'){
